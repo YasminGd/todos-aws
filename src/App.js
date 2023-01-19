@@ -15,7 +15,8 @@ import { Todos } from './components/todos'
 function App({ signOut }) {
   return (
     <View className="App">
-      <Todos />
+      <Todos/>
+      <Button onClick={signOut}>Sign Out</Button>
     </View>
   )
 }
