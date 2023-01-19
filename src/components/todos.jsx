@@ -10,71 +10,72 @@ import {
   TextField,
   View,
 } from "@aws-amplify/ui-react"
-import { listTodos } from "../graphql/queries"
-import {
-  createTodo as createTodoMutation,
-  deleteTodo as deleteTodoMutation,
-} from "../graphql/mutations"
+import { createTodo as createTodoMutation } from "../graphql/mutations"
+import { todoService } from "../services/todo.service"
+import { Auth } from "aws-amplify"
 
 export const Todos = () => {
   const [todos, setTodos] = useState([])
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     fetchTodos()
+    getUser()
   }, [])
 
-  async function fetchTodos() {
-    const apiData = await API.graphql({ query: listTodos })
-    const todosFromAPI = apiData.data.listTodos.items
-    await Promise.all(
-      todosFromAPI.map(async (todo) => {
-        if (todo.image) {
-            const url = await Storage.get(todo.name)
-          todo.image = url
-        }
-        return todo
-      })
-    )
-    setTodos(todosFromAPI)
+  const fetchTodos = async () => {
+    try {
+      const todosFromAPI = await todoService.query()
+      setTodos(todosFromAPI)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  async function createTodo(event) {
+  const getUser = async () => {
+    setUser(await Auth.currentUserInfo())
+  }
+
+  const createTodo = async (event) => {
     event.preventDefault()
     const form = new FormData(event.target)
-    const image = form.get("image")
-    const data = {
-      name: form.get("name"),
+    const todo = {
+      title: form.get("title"),
       description: form.get("description"),
-      image: image.name,
+      byUserId: user.id,
     }
-    if (data.image) await Storage.put(data.name, image)
-    await API.graphql({
-        query: createTodoMutation,
-        variables: { input: data },
-    })
-    fetchTodos()
+    try {
+      const addedTodo = await todoService.save(todo)
+      setTodos(prevTodos => [...prevTodos, addedTodo])
+    } catch(err) {
+      console.error(err)
+    }
     event.target.reset()
   }
 
-  async function deleteTodo({ id, name }) {
-    const newTodo = todos.filter((note) => note.id !== id)
-    setTodos(newTodo)
-    await Storage.remove(name)
-    await API.graphql({
-      query: deleteTodoMutation,
-      variables: { input: { id } },
-    })
+  const deleteTodo = async (id) => {
+    try {
+      await todoService.remove(id)
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
     <section className='todos'>
-      <Heading level={1}>My Todo App</Heading>
+      <Heading level={1}>
+        My Todo App
+        {user && (
+          <span style={{ marginLeft: "68px" }}>Hello {user.username}</span>
+        )}
+      </Heading>
       <View as='form' margin='3rem 0' onSubmit={createTodo}>
         <Flex direction='row' justifyContent='center'>
           <TextField
-            name='name'
-            placeholder='Todo Name'
-            label='Todo Name'
+            name='title'
+            placeholder='Todo Title'
+            label='Todo Title'
             labelHidden
             variation='quiet'
             required
@@ -87,12 +88,6 @@ export const Todos = () => {
             variation='quiet'
             required
           />
-          <View
-            name='image'
-            as='input'
-            type='file'
-            style={{ alignSelf: "end" }}
-          />
           <Button type='submit' variation='primary'>
             Create Todo
           </Button>
@@ -102,23 +97,16 @@ export const Todos = () => {
       <View margin='3rem 0'>
         {todos.map((todo) => (
           <Flex
-            key={todo.id || todo.name}
+            key={todo.id}
             direction='row'
             justifyContent='center'
             alignItems='center'
           >
             <Text as='strong' fontWeight={700}>
-              {todo.name}
+              {todo.title}
             </Text>
             <Text as='span'>{todo.description}</Text>
-            {todo.image && (
-              <Image
-                src={todo.image}
-                alt={`visual aid for ${todos.name}`}
-                style={{ width: 40, borderRadius: '50%' }}
-              />
-            )}
-            <Button variation='link' onClick={() => deleteTodo(todo)}>
+            <Button variation='link' onClick={() => deleteTodo(todo.id)}>
               Delete todo
             </Button>
           </Flex>
