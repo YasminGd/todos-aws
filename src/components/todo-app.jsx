@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import "@aws-amplify/ui-react/styles.css"
-import { API, Storage } from "aws-amplify"
 import {
   Button,
   Flex,
@@ -10,30 +9,28 @@ import {
   TextField,
   View,
 } from "@aws-amplify/ui-react"
-import { createTodo as createTodoMutation } from "../graphql/mutations"
 import { todoService } from "../services/todo.service"
 import { Auth } from "aws-amplify"
 
-export const Todos = () => {
+export const TodoApp = () => {
   const [todos, setTodos] = useState([])
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    fetchTodos()
-    getUser()
+    ;(async () => {
+      const loggedIUser = await Auth.currentUserInfo()
+      setUser(loggedIUser)
+      fetchTodos({ byUserId: loggedIUser.id })
+    })()
   }, [])
 
-  const fetchTodos = async () => {
+  const fetchTodos = async (filter) => {
     try {
-      const todosFromAPI = await todoService.query()
+      const todosFromAPI = await todoService.query(filter)
       setTodos(todosFromAPI)
     } catch (err) {
       console.error(err)
     }
-  }
-
-  const getUser = async () => {
-    setUser(await Auth.currentUserInfo())
   }
 
   const createTodo = async (event) => {
@@ -46,8 +43,8 @@ export const Todos = () => {
     }
     try {
       const addedTodo = await todoService.save(todo)
-      setTodos(prevTodos => [...prevTodos, addedTodo])
-    } catch(err) {
+      setTodos((prevTodos) => [...prevTodos, addedTodo])
+    } catch (err) {
       console.error(err)
     }
     event.target.reset()

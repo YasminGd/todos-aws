@@ -8,13 +8,13 @@ import {
   View,
   Card,
 } from "@aws-amplify/ui-react"
-import { Todos } from './components/todos'
+import { TodoApp } from './components/todo-app'
 
 
 function App({ signOut }) {
   return (
     <View className="App">
-      <Todos/>
+      <TodoApp/>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   )
