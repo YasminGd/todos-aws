@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react"
 import "@aws-amplify/ui-react/styles.css"
 import {
   Button,
@@ -10,29 +9,22 @@ import {
   View,
 } from "@aws-amplify/ui-react"
 import { todoService } from "../services/todo.service"
-import { Auth } from "aws-amplify"
 import { TodoList } from "../components/todo-list"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
+import { addTodo, loadTodos, removeTodo } from "../store/actions/todo.action"
 
-export const TodoApp = ({ signOut }) => {
-  const [todos, setTodos] = useState([])
-  const [user, setUser] = useState(null)
+export const TodoApp = ({ user }) => {
+  const todos = useSelector((state) => state.todoModule.todos)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    ;(async () => {
-      const loggedIUser = await Auth.currentUserInfo()
-      setUser(loggedIUser)
-      fetchTodos({ byUserId: loggedIUser.id })
-    })()
-  }, [])
-
-  const fetchTodos = async (filter) => {
     try {
-      const todosFromAPI = await todoService.query(filter)
-      setTodos(todosFromAPI)
+      dispatch(loadTodos())
     } catch (err) {
       console.error(err)
     }
-  }
+  }, [])
 
   const createTodo = async (event) => {
     event.preventDefault()
@@ -43,18 +35,16 @@ export const TodoApp = ({ signOut }) => {
       byUserId: user.id,
     }
     try {
-      const addedTodo = await todoService.save(todo)
-      setTodos((prevTodos) => [...prevTodos, addedTodo])
+      dispatch(addTodo(todo))
     } catch (err) {
       console.error(err)
     }
     event.target.reset()
   }
 
-  const deleteTodo = async (id) => {
+  const deleteTodo = async (todoId) => {
     try {
-      await todoService.remove(id)
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
+      dispatch(removeTodo(todoId))
     } catch (err) {
       console.error(err)
     }
@@ -85,7 +75,7 @@ export const TodoApp = ({ signOut }) => {
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Todo</Heading>
+      <Heading level={2}>Todos</Heading>
       <TodoList todos={todos} deleteTodo={deleteTodo} />
     </section>
   )
