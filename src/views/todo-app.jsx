@@ -11,8 +11,9 @@ import {
 } from "@aws-amplify/ui-react"
 import { todoService } from "../services/todo.service"
 import { Auth } from "aws-amplify"
+import { TodoList } from "../components/todo-list"
 
-export const TodoApp = () => {
+export const TodoApp = ({ signOut }) => {
   const [todos, setTodos] = useState([])
   const [user, setUser] = useState(null)
 
@@ -37,8 +38,8 @@ export const TodoApp = () => {
     event.preventDefault()
     const form = new FormData(event.target)
     const todo = {
-      title: form.get("title"),
-      description: form.get("description"),
+      title: form.get("title").trim(),
+      description: form.get("description").trim(),
       byUserId: user.id,
     }
     try {
@@ -61,12 +62,6 @@ export const TodoApp = () => {
 
   return (
     <section className='todos'>
-      <Heading level={1}>
-        My Todo App
-        {user && (
-          <span style={{ marginLeft: "68px" }}>Hello {user.username}</span>
-        )}
-      </Heading>
       <View as='form' margin='3rem 0' onSubmit={createTodo}>
         <Flex direction='row' justifyContent='center'>
           <TextField
@@ -91,24 +86,7 @@ export const TodoApp = () => {
         </Flex>
       </View>
       <Heading level={2}>Current Todo</Heading>
-      <View margin='3rem 0'>
-        {todos.map((todo) => (
-          <Flex
-            key={todo.id}
-            direction='row'
-            justifyContent='center'
-            alignItems='center'
-          >
-            <Text as='strong' fontWeight={700}>
-              {todo.title}
-            </Text>
-            <Text as='span'>{todo.description}</Text>
-            <Button variation='link' onClick={() => deleteTodo(todo.id)}>
-              Delete todo
-            </Button>
-          </Flex>
-        ))}
-      </View>
+      <TodoList todos={todos} deleteTodo={deleteTodo} />
     </section>
   )
 }
