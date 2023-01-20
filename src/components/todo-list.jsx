@@ -11,7 +11,7 @@ export const TodoList = ({ todos, deleteTodo }) => {
       padding="0 12px"
     >
       {todos.map((todo) => (
-        <TodoPreview todo={todo} deleteTodo={deleteTodo} />
+        <TodoPreview key={todo.id} todo={todo} deleteTodo={deleteTodo} />
       ))}
     </Flex>
   )

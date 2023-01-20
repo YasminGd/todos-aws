@@ -61,3 +61,17 @@ export function removeTodo(todoId) {
         }
     }
 }
+
+export function removeTodosFromState(todoId) {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: 'SET_TODOS',
+                todos: [],
+            })
+        } catch (err) {
+            console.error('Cannot remove todo', err)
+            throw err
+        }
+    }
+}

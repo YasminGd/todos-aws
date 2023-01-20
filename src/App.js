@@ -13,26 +13,20 @@ import { Route, Routes } from 'react-router-dom'
 import { AppHeader } from './components/app-header'
 import { Auth } from 'aws-amplify'
 import { useEffect, useState } from 'react'
+import { LoginSignup } from './views/login-signup'
+import { PrivateRoute } from './components/private-route'
 
-function App({ signOut }) {
-
-  const [loggedinUser, setLoggedinUser] = useState(null)
-
-  useEffect(() => {
-    ; (async () => {
-      const user = await Auth.currentUserInfo()
-      setLoggedinUser(user)
-    })()
-  }, [])
+function App() {
 
   return (
     <View className="App">
-      <AppHeader signOut={signOut} user={loggedinUser} />
+      <AppHeader />
       <Routes>
-        <Route path="/*" element={<TodoApp user={loggedinUser} />} />
+        <Route path="/*" element={<PrivateRoute element={<TodoApp />} />} />
+        <Route path="/user/:status" element={<LoginSignup />} />
       </Routes>
     </View>
   )
 }
 
-export default withAuthenticator(App)
+export default App

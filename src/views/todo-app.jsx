@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   Image,
+  Loader,
   Text,
   TextField,
   View,
@@ -13,17 +14,24 @@ import { TodoList } from "../components/todo-list"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { addTodo, loadTodos, removeTodo } from "../store/actions/todo.action"
+import { useState } from "react"
 
-export const TodoApp = ({ user }) => {
+export const TodoApp = () => {
   const todos = useSelector((state) => state.todoModule.todos)
+  const user = useSelector((state) => state.todoModule.user)
+  const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    try {
-      dispatch(loadTodos())
-    } catch (err) {
-      console.error(err)
-    }
+    ;(async () => {
+      try {
+        setIsLoading(true)
+        await dispatch(loadTodos())
+        setIsLoading(false)
+      } catch (err) {
+        console.error(err)
+      }
+    })()
   }, [])
 
   const createTodo = async (event) => {
@@ -76,7 +84,11 @@ export const TodoApp = ({ user }) => {
         </Flex>
       </View>
       <Heading level={2}>Todos</Heading>
-      <TodoList todos={todos} deleteTodo={deleteTodo} />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <TodoList todos={todos} deleteTodo={deleteTodo} />
+      )}
     </section>
   )
 }

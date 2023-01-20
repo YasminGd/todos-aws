@@ -8,14 +8,19 @@ import { store } from './store/store'
 import { Amplify } from 'aws-amplify'
 import config from './aws-exports'
 import { Provider } from 'react-redux'
+import "@aws-amplify/ui-react/styles.css";
+import { ThemeProvider } from "@aws-amplify/ui-react";
+
 Amplify.configure(config)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>
+  <ThemeProvider>
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  </ThemeProvider>
 )
 

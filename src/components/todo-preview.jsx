@@ -4,7 +4,6 @@ export const TodoPreview = ({ todo, deleteTodo }) => {
   return (
     <Flex
       className='todo-preview'
-      key={todo.id}
       direction='row'
       justifyContent='space-between'
       alignItems='center'

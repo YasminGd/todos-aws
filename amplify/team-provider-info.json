@@ -12,14 +12,14 @@
       "AmplifyAppId": "d2ufute4qoagol"
     },
     "categories": {
-      "auth": {
-        "todosaws19470373": {}
-      },
       "api": {
         "todosaws": {}
       },
       "storage": {
         "imagestorage": {}
+      },
+      "auth": {
+        "todosaws9c1ec615": {}
       }
     }
   }

@@ -61,7 +61,6 @@ async function save(todo) {
     }
 }
 
-
 function _buildCriteria(filter) {
     const criteria = {}
     if (filter.byUserId) criteria.byUserId = { eq: filter.byUserId }
