@@ -20,10 +20,10 @@ export function loadTodos() {
 export function addTodo(todo) {
     return async (dispatch) => {
         try {
-            const savedTodo = await todoService.save(todo)
+            const addedTodo = await todoService.save(todo)
             dispatch({
                 type: 'ADD_TODO',
-                todo: { ...savedTodo },
+                todo: { ...addedTodo },
             })
         }
         catch (err) {
@@ -33,17 +33,19 @@ export function addTodo(todo) {
     }
 }
 
-// export function updateTodo(todo) {
-//     return async (dispatch) => {
-//         dispatch(getActionUpdateBoard({ ...board }))
-//         try {
-//             await boardService.save(board)
-//         } catch (err) {
-//             dispatch(getActionUpdateBoard(prevBoard))
-//             console.log('Cannot update board', err)
-//         }
-//     }
-// }
+export function updateTodo(todo) {
+    return async (dispatch) => {
+        try {
+            const updatedTodo = await todoService.save(todo)
+            dispatch({
+                type: 'UPDATE_TODO',
+                todo: updatedTodo,
+            })
+        } catch (err) {
+            console.error('Cannot update todo', err)
+            throw err        }
+    }
+}
 
 export function removeTodo(todoId) {
     return async (dispatch) => {
@@ -54,7 +56,7 @@ export function removeTodo(todoId) {
                 todoId,
             })
         } catch (err) {
-            console.log('Cannot remove todo', err)
+            console.error('Cannot remove todo', err)
             throw err
         }
     }
