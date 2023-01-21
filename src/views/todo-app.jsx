@@ -15,10 +15,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { addTodo, loadTodos, removeTodo } from "../store/actions/todo.action"
 import { useState } from "react"
+import { Route, Routes } from "react-router-dom"
+import { TodoEdit } from "./todo-edit"
+import { PrivateRoute } from "../components/private-route"
 
 export const TodoApp = () => {
   const todos = useSelector((state) => state.todoModule.todos)
-  const user = useSelector((state) => state.todoModule.user)
+  const user = useSelector((state) => state.userModule.user)
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
@@ -83,12 +86,20 @@ export const TodoApp = () => {
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Todos</Heading>
+      <Heading level={2} textAlign='center'>
+        Todos
+      </Heading>
       {isLoading ? (
         <Loader />
       ) : (
         <TodoList todos={todos} deleteTodo={deleteTodo} />
       )}
+      <Routes>
+        <Route
+          path=':todoId'
+          element={<PrivateRoute element={<TodoEdit />} />}
+        />
+      </Routes>
     </section>
   )
 }

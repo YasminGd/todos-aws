@@ -15,11 +15,11 @@
       "api": {
         "todosaws": {}
       },
-      "storage": {
-        "imagestorage": {}
-      },
       "auth": {
         "todosaws9c1ec615": {}
+      },
+      "storage": {
+        "imagestorage": {}
       }
     }
   }

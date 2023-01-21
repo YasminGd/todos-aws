@@ -1,9 +1,11 @@
-import { API, Storage } from "aws-amplify"
+import { API } from "aws-amplify"
 import { listTodos } from "../graphql/queries"
 import {
     createTodo as createTodoMutation,
     deleteTodo as deleteTodoMutation,
+    updateTodo as updateTodoMutation
 } from "../graphql/mutations"
+import { geocodingService } from "./geocoding.service"
 
 export const todoService = {
     query,
@@ -18,7 +20,7 @@ async function query(filter = {}) {
             query: listTodos,
             variables: { filter: criteria }
         })
-        const todosFromAPI = apiData.data.listTodos.items
+        const  todosFromAPI = apiData.data.listTodos.items
         return todosFromAPI
     } catch (err) {
         console.log(err)
@@ -40,20 +42,29 @@ async function remove(id) {
 }
 
 async function save(todo) {
+    // let weather = await geocodingService.getCityWeather(`${todo.title} ${todo.description}`)
     if (todo.id) {
         try {
-
+            delete todo.createdAt
+            delete todo.updatedAt
+            const updatedTodoData = await API.graphql({
+                query: updateTodoMutation,
+                variables: { input: todo },
+            })
+            const updatedTodo = updatedTodoData.data.updateTodo
+            return updatedTodo
         } catch (err) {
             console.error(err)
             throw err
         }
     } else {
         try {
-            const addedTodo = await API.graphql({
+            const addedTodoData = await API.graphql({
                 query: createTodoMutation,
                 variables: { input: todo },
             })
-            return addedTodo.data.createTodo
+            const addedTodo = addedTodoData.data.createTodo
+            return addedTodo
         } catch (err) {
             console.error(err)
             throw err

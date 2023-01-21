@@ -1,10 +1,11 @@
 import { Auth } from "aws-amplify"
 import { todoService } from "../../services/todo.service"
+import { userService } from "../../services/user.service"
 
 export function loadTodos() {
     return async (dispatch) => {
         try {
-            const user = await Auth.currentUserInfo()
+            const user = await userService.getLoggedInUser()
             const todos = await todoService.query({ byUserId: user.id })
             dispatch({
                 type: 'SET_TODOS',
@@ -43,7 +44,8 @@ export function updateTodo(todo) {
             })
         } catch (err) {
             console.error('Cannot update todo', err)
-            throw err        }
+            throw err
+        }
     }
 }
 
