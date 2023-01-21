@@ -26,7 +26,6 @@ export const TodoEdit = () => {
 
   useEffect(() => {
     if (!todo) navigate("/todo")
-
   }, [])
 
   const onGoBack = () => {
@@ -48,7 +47,6 @@ export const TodoEdit = () => {
 
   return (
     <>
-      {" "}
       {todo && (
         <View className='screen' onClick={onGoBack}>
           <Card
@@ -61,13 +59,6 @@ export const TodoEdit = () => {
               <Text fontSize='20px' marginBottom='12px'>
                 Edit Todo
               </Text>
-              <TextAreaField
-                label='Title'
-                rows={1}
-                name='title'
-                value={todo.title}
-                onChange={handleChange}
-              />
               <TextAreaField
                 label='Description'
                 marginBottom='12px'

@@ -1,19 +1,39 @@
-import { Button, Flex, Loader, Text, View } from "@aws-amplify/ui-react"
+import {
+  Button,
+  CheckboxField,
+  Flex,
+  Loader,
+  Text,
+  View,
+} from "@aws-amplify/ui-react"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { removeTodo, updateTodo } from "../store/actions/todo.action"
 
-export const TodoPreview = ({ todo, deleteTodo }) => {
+export const TodoPreview = ({ todo }) => {
   const [isDeleting, setIsDeleting] = useState(false)
+  const dispatch = useDispatch()
 
-  const onDeleteTodo = async (todoId) => {
+  const onRemoveTodo = async (todoId) => {
     try {
       setIsDeleting(true)
-      await deleteTodo(todoId)
+      await dispatch(removeTodo(todoId))
     } catch (err) {
       console.error(err)
       setIsDeleting(false)
     }
   }
+
+  const onToggleCompleted = async () => {
+    try {
+      todo.isCompleted = !todo.isCompleted
+      await dispatch(updateTodo(todo))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <Flex
       className='todo-preview'
@@ -25,20 +45,20 @@ export const TodoPreview = ({ todo, deleteTodo }) => {
       padding='6px 12px'
       borderRadius='5px'
     >
-      <View>
-        <Text as='strong' fontWeight={700} fontSize='18px'>
-          {todo.title}
-        </Text>
-        <br />
-        <Text as='span'>{todo.description}</Text>
-      </View>
+      <Flex>
+        <CheckboxField
+          checked={todo.isCompleted}
+          onChange={onToggleCompleted}
+        />
+        <Text as='span' textDecoration={todo.isCompleted ? 'line-through' : ''}>{todo.description}</Text>
+      </Flex>
       <View>
         <Link to={`${todo.id}`}>
           <Button variation='link'>Edit todo</Button>
         </Link>
         <Button
           variation='link'
-          onClick={() => onDeleteTodo(todo.id)}
+          onClick={() => onRemoveTodo(todo.id)}
           width='124px'
           height='40px'
         >

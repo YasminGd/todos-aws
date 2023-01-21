@@ -41,9 +41,9 @@ export const TodoApp = () => {
     event.preventDefault()
     const form = new FormData(event.target)
     const todo = {
-      title: form.get("title").trim(),
       description: form.get("description").trim(),
       byUserId: user.id,
+      isCompleted: false
     }
     try {
       dispatch(addTodo(todo))
@@ -65,14 +65,6 @@ export const TodoApp = () => {
     <section className='todos'>
       <View as='form' margin='3rem 0' onSubmit={createTodo}>
         <Flex direction='row' justifyContent='center'>
-          <TextField
-            name='title'
-            placeholder='Todo Title'
-            label='Todo Title'
-            labelHidden
-            variation='quiet'
-            required
-          />
           <TextField
             name='description'
             placeholder='Todo Description'
