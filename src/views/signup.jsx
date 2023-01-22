@@ -51,7 +51,7 @@ export const Signup = () => {
         await dispatch(signup(credentials))
         setIsConfirming(true)
         setIsLoading(false)
-        setErrorMassage('')
+        setErrorMassage("")
       } catch (err) {
         setIsLoading(false)
         setErrorMassage("can't sign up")
@@ -67,6 +67,9 @@ export const Signup = () => {
       flex='1'
     >
       <Flex direction='column' width='258px'>
+        <Text textAlign='center' fontSize='32px' fontWeight={600}>
+          Todoz
+        </Text>
         <form onSubmit={onAttemptSignup}>
           {isConfirming ? (
             <>
@@ -80,11 +83,7 @@ export const Signup = () => {
                 label='code'
                 required
               />
-              <Button
-                variation='primary'
-                type='submit'
-                height='42px'
-              >
+              <Button variation='primary' type='submit' height='42px'>
                 {isLoading ? <Loader /> : "Enter code"}
               </Button>
             </>
@@ -97,6 +96,7 @@ export const Signup = () => {
                 onChange={handleChange}
                 label='Username'
                 required
+                placeholder='enter a username'
               />
               <TextField
                 name='email'
@@ -104,6 +104,7 @@ export const Signup = () => {
                 onChange={handleChange}
                 label='Email'
                 required
+                placeholder='enter an email address'
               />
               <PasswordField
                 name='password'
@@ -111,12 +112,9 @@ export const Signup = () => {
                 onChange={handleChange}
                 label='Password'
                 required
+                placeholder='enter a password'
               />
-              <Button
-                variation='primary'
-                type='submit'
-                height='42px'
-              >
+              <Button variation='primary' type='submit' height='42px'>
                 {isLoading ? <Loader /> : "Sign up"}
               </Button>
             </>

@@ -66,18 +66,23 @@ export const Login = () => {
       flex='1'
     >
       <Flex direction='column' width='258px'>
+        <Text textAlign='center' fontSize='32px' fontWeight={600}>Todoz</Text>
         <form onSubmit={onAttemptLogin}>
           <Text textAlign='center'>Log in</Text>
           <TextField
             name='username'
             value={credentials.username}
             onChange={handleChange}
+            placeholder='Enter your username'
+            label='Username'
             required
           />
           <PasswordField
             name='password'
             value={credentials.password}
             onChange={handleChange}
+            placeholder='Enter your password'
+            label='Password'
             required
           />
           <Button variation='primary' type='submit' height='42px' width='258px'>
