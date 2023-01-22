@@ -13,7 +13,7 @@ import { removeTodo, updateTodo } from "../store/actions/todo.action"
 import { Loader } from "./loader"
 
 export const TodoPreview = ({ todo }) => {
-  const [isRemoving, setIsRemoving] = useState(false)
+  const [isRemoving, setIsRemoving] = useState(true)
   const dispatch = useDispatch()
 
   const onRemoveTodo = async (todoId) => {
@@ -46,7 +46,7 @@ export const TodoPreview = ({ todo }) => {
       padding='6px 12px'
       borderRadius='5px'
     >
-      <Flex>
+      <Flex alignItems='center' justifyContent='center'>
         <CheckboxField
           checked={todo.isCompleted}
           onChange={onToggleCompleted}
@@ -55,7 +55,7 @@ export const TodoPreview = ({ todo }) => {
           {todo.description}
         </Text>
       </Flex>
-      <View>
+      <Flex alignItems='center' justifyContent='center'>
         <Link to={`${todo.id}`}>
           <Button variation='link'>Edit todo</Button>
         </Link>
@@ -67,7 +67,7 @@ export const TodoPreview = ({ todo }) => {
         >
           {isRemoving ? <Loader /> : "Delete todo"}
         </Button>
-      </View>
+      </Flex>
     </Flex>
   )
 }
