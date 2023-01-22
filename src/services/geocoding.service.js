@@ -7,7 +7,7 @@ export const geocodingService = {
 async function getCityWeather(string) {
     const API_KEY = 'ba7a616d95864461ac550245232101'
     try {
-        const apiData = await fetch(`http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${string}`)
+        const apiData = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${string}`)
         const data = await apiData.json()
         if (!data.error) {
             const weather = {
