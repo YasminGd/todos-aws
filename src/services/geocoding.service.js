@@ -1,3 +1,5 @@
+import { DBService } from "./db.service"
+
 export const geocodingService = {
     getCityWeather
 }
@@ -7,13 +9,14 @@ async function getCityWeather(string) {
     try {
         const apiData = await fetch(`http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${string}`)
         const data = await apiData.json()
-        if (data) {
+        if (!data.error) {
             const weather = {
                 temprature: data.current.temp_c,
                 image: data.current.condition.icon,
-                cityName: data.location.name,
+                cityName: data.location.name.toLowerCase(),
                 lastUpdated: Date.now()
             }
+            DBService.putInDB(weather)
             return weather
         } else return
     } catch (err) {

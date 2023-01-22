@@ -1,54 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createWeather = /* GraphQL */ `
-  mutation CreateWeather(
-    $input: CreateWeatherInput!
-    $condition: ModelWeatherConditionInput
-  ) {
-    createWeather(input: $input, condition: $condition) {
-      id
-      temprature
-      image
-      cityName
-      lastUpdated
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateWeather = /* GraphQL */ `
-  mutation UpdateWeather(
-    $input: UpdateWeatherInput!
-    $condition: ModelWeatherConditionInput
-  ) {
-    updateWeather(input: $input, condition: $condition) {
-      id
-      temprature
-      image
-      cityName
-      lastUpdated
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteWeather = /* GraphQL */ `
-  mutation DeleteWeather(
-    $input: DeleteWeatherInput!
-    $condition: ModelWeatherConditionInput
-  ) {
-    deleteWeather(input: $input, condition: $condition) {
-      id
-      temprature
-      image
-      cityName
-      lastUpdated
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!

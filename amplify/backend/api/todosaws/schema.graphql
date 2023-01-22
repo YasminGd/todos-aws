@@ -1,11 +1,3 @@
-type Weather @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  temprature: Int
-  image: String
-  cityName: String
-  lastUpdated: Int
-}
-
 type Todo @model @auth(rules: [{allow: owner}, {allow: public}]) {
   id: ID!
   description: String!

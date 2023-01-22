@@ -49,7 +49,21 @@ export const TodoPreview = ({ todo }) => {
           {todo.description}
         </Text>
       </Flex>
-      <Flex alignItems='center' justifyContent='end' gap={{ base: "2px" }} minWidth='135px'>
+      <Flex
+        alignItems='center'
+        justifyContent='end'
+        gap={{ base: "2px" }}
+        minWidth='135px'
+      >
+        {todo.weather && (
+          <Flex justifyContent='center' alignItems='center' wrap='wrap'>
+            <Text>{todo.weather.cityName}</Text>
+            <Text>{todo.weather.temprature}°C</Text>
+            <Flex height='40px' width='40px' justifyContent='center' alignItems='center'>
+              <img src={todo.weather.image} />
+            </Flex>
+          </Flex>
+        )}
         <Link to={`${todo.id}`}>
           <Button
             variation='link'

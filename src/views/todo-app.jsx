@@ -33,7 +33,11 @@ export const TodoApp = () => {
 
   const getBody = () => {
     if (isCantGetTodos)
-      return <Text>Can't get todos, please try again at a later date</Text>
+      return (
+        <Text textAlign='center'>
+          Can't get todos, please try again at a later date.
+        </Text>
+      )
     if (todos) return <TodoList todos={todos} />
     if (isLoading) return <Loader />
   }
@@ -50,7 +54,7 @@ export const TodoApp = () => {
       <Routes>
         <Route
           path=':todoId'
-          element={<PrivateRoute element={<TodoEdit />}/>}
+          element={<PrivateRoute element={<TodoEdit />} />}
         />
       </Routes>
     </section>

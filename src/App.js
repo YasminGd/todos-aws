@@ -9,6 +9,8 @@ import { Signup } from './views/signup'
 import "react-toastify/dist/ReactToastify.css"
 import { ToastContainer } from 'react-toastify'
 import { useEffect, useState } from 'react'
+import { DBService } from './services/db.service'
+import { geocodingService } from './services/geocoding.service'
 
 
 function App() {
@@ -31,7 +33,6 @@ function App() {
         <Route path="/todo/*" element={<PrivateRoute element={<TodoApp />} />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/signup" element={<Signup />} />
-        {/* <Route path="/user/signup" element={<LoginSignup />} /> */}
       </Routes>
     </View>
   )

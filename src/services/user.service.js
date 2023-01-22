@@ -13,7 +13,6 @@ const STORAGE_KEY_LOGGEDIN = 'loggedInUser'
 async function login({ username, password }) {
     try {
         const user = await Auth.signIn(username, password)
-        console.log(user)
         const miniUser = {
             username: user.username,
             id: user.attributes.sub,
@@ -28,7 +27,6 @@ async function login({ username, password }) {
 }
 
 async function signup({ username, password, email }) {
-    console.log(username, password, email)
     try {
         const user = await Auth.signUp({
             username, password, attributes: {

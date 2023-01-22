@@ -6,6 +6,8 @@ import {
     updateTodo as updateTodoMutation
 } from "../graphql/mutations"
 import { geocodingService } from "./geocoding.service"
+import { DBService } from "./db.service"
+import { utilService } from "./util.service"
 
 export const todoService = {
     query,
@@ -20,10 +22,19 @@ async function query(filter = {}) {
             query: listTodos,
             variables: { filter: criteria }
         })
-        let todosFromAPI = apiData.data.listTodos.items
-        return todosFromAPI
+        const todosFromAPI = apiData.data.listTodos.items
+        const todosWithWeather = await Promise.all(todosFromAPI.map(async (todo) => {
+            if (todo.cityName) {
+                let weather = await DBService.getFromDB(todo.cityName)
+                if (weather) {
+                    if (utilService.isMoreThenADayAgo(weather.lastUpdated)) weather = await geocodingService.getCityWeather(weather.cityName)
+                    todo.weather = weather
+                }
+            }
+            return todo
+        }))
+        return todosWithWeather
     } catch (err) {
-        console.log(err)
         throw err
     }
 }
@@ -35,7 +46,6 @@ async function remove(id) {
             variables: { input: { id } },
         })
     } catch (err) {
-        console.log(err)
         throw err
     }
     return
@@ -67,7 +77,7 @@ async function save(todo) {
                 query: createTodoMutation,
                 variables: { input: todo },
             })
-            const addedTodo = addedTodoData.data.createTodo 
+            const addedTodo = addedTodoData.data.createTodo
             if (weather) addedTodo.weather = weather
             return addedTodo
         } catch (err) {
