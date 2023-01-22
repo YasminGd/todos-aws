@@ -9,19 +9,20 @@ import {
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 import { removeTodo, updateTodo } from "../store/actions/todo.action"
 
 export const TodoPreview = ({ todo }) => {
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isRemoving, setIsRemoving] = useState(false)
   const dispatch = useDispatch()
 
   const onRemoveTodo = async (todoId) => {
     try {
-      setIsDeleting(true)
+      setIsRemoving(true)
       await dispatch(removeTodo(todoId))
     } catch (err) {
-      console.error(err)
-      setIsDeleting(false)
+      setIsRemoving(false)
+      toast.error("Can't delete todo")
     }
   }
 
@@ -30,7 +31,7 @@ export const TodoPreview = ({ todo }) => {
       todo.isCompleted = !todo.isCompleted
       await dispatch(updateTodo(todo))
     } catch (err) {
-      console.error(err)
+      toast.error("Can't toggle completed")
     }
   }
 
@@ -50,7 +51,9 @@ export const TodoPreview = ({ todo }) => {
           checked={todo.isCompleted}
           onChange={onToggleCompleted}
         />
-        <Text as='span' textDecoration={todo.isCompleted ? 'line-through' : ''}>{todo.description}</Text>
+        <Text as='span' textDecoration={todo.isCompleted ? "line-through" : ""}>
+          {todo.description}
+        </Text>
       </Flex>
       <View>
         <Link to={`${todo.id}`}>
@@ -62,7 +65,7 @@ export const TodoPreview = ({ todo }) => {
           width='124px'
           height='40px'
         >
-          {isDeleting ? <Loader /> : "Delete todo"}
+          {isRemoving ? <Loader /> : "Delete todo"}
         </Button>
       </View>
     </Flex>

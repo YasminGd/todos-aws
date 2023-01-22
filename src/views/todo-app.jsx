@@ -3,13 +3,11 @@ import {
   Button,
   Flex,
   Heading,
-  Image,
   Loader,
   Text,
   TextField,
   View,
 } from "@aws-amplify/ui-react"
-import { todoService } from "../services/todo.service"
 import { TodoList } from "../components/todo-list"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
@@ -18,11 +16,13 @@ import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 import { TodoEdit } from "./todo-edit"
 import { PrivateRoute } from "../components/private-route"
+import { toast } from "react-toastify"
 
 export const TodoApp = () => {
   const todos = useSelector((state) => state.todoModule.todos)
   const user = useSelector((state) => state.userModule.user)
   const [isLoading, setIsLoading] = useState(false)
+  const [isCantGetTodos, setIsCantGetTodos] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -32,7 +32,8 @@ export const TodoApp = () => {
         await dispatch(loadTodos())
         setIsLoading(false)
       } catch (err) {
-        console.error(err)
+        setIsLoading(false)
+        setIsCantGetTodos(true)
       }
     })()
   }, [])
@@ -43,12 +44,12 @@ export const TodoApp = () => {
     const todo = {
       description: form.get("description").trim(),
       byUserId: user.id,
-      isCompleted: false
+      isCompleted: false,
     }
     try {
       dispatch(addTodo(todo))
     } catch (err) {
-      console.error(err)
+      toast.error("can't add todo")
     }
     event.target.reset()
   }
@@ -57,9 +58,18 @@ export const TodoApp = () => {
     try {
       dispatch(removeTodo(todoId))
     } catch (err) {
-      console.error(err)
+      toast.error("can't delete todo")
     }
   }
+
+  const getBody = () => {
+    if (isCantGetTodos)
+      return <Text>Can't get todos, please try again at a later date</Text>
+    if (todos) return <TodoList todos={todos} />
+    return <Loader />
+  }
+
+  const body = getBody()
 
   return (
     <section className='todos'>
@@ -81,11 +91,7 @@ export const TodoApp = () => {
       <Heading level={2} textAlign='center'>
         Todos
       </Heading>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <TodoList todos={todos} deleteTodo={deleteTodo} />
-      )}
+      {body}
       <Routes>
         <Route
           path=':todoId'

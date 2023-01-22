@@ -20,7 +20,7 @@ async function query(filter = {}) {
             query: listTodos,
             variables: { filter: criteria }
         })
-        const  todosFromAPI = apiData.data.listTodos.items
+        let todosFromAPI = apiData.data.listTodos.items
         return todosFromAPI
     } catch (err) {
         console.log(err)
@@ -42,16 +42,19 @@ async function remove(id) {
 }
 
 async function save(todo) {
-    // let weather = await geocodingService.getCityWeather(`${todo.title} ${todo.description}`)
+    let weather = await geocodingService.getCityWeather(todo.description)
     if (todo.id) {
         try {
             delete todo.createdAt
             delete todo.updatedAt
+            if (todo.weather) delete todo.weather
+            todo.cityName = weather ? weather.cityName : null
             const updatedTodoData = await API.graphql({
                 query: updateTodoMutation,
                 variables: { input: todo },
             })
             const updatedTodo = updatedTodoData.data.updateTodo
+            if (weather) updatedTodo.weather = weather
             return updatedTodo
         } catch (err) {
             console.error(err)
@@ -59,11 +62,13 @@ async function save(todo) {
         }
     } else {
         try {
+            if (weather) todo.cityName = weather.cityName
             const addedTodoData = await API.graphql({
                 query: createTodoMutation,
                 variables: { input: todo },
             })
-            const addedTodo = addedTodoData.data.createTodo
+            const addedTodo = addedTodoData.data.createTodo 
+            if (weather) addedTodo.weather = weather
             return addedTodo
         } catch (err) {
             console.error(err)

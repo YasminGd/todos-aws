@@ -1,11 +1,22 @@
 import { Flex, Heading, View, Text, Button } from "@aws-amplify/ui-react"
+import { useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 import { removeTodosFromState } from "../store/actions/todo.action"
 import { logout } from "../store/actions/user.action"
 
 export const AppHeader = () => {
   const user = useSelector((state) => state.userModule.user)
+  const [display,setDisplay] = useState('')
   const dispatch = useDispatch()
+  const location = useLocation()
+
+  useEffect(() => {
+    if(location.pathname.includes("/login") || location.pathname.includes("/signup")) setDisplay('none')
+    else setDisplay('')
+  },[location.pathname])
+ 
 
   const onLogout = () => {
     try {
@@ -15,8 +26,9 @@ export const AppHeader = () => {
       console.error(err)
     }
   }
+
   return (
-    <Heading className='app-header' height='64px'>
+    <Heading className='app-header' height='64px' display={display}>
       <Flex
         className='main-content'
         maxWidth='1100px'

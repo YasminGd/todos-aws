@@ -6,11 +6,15 @@ import { Login } from './views/login'
 import { PrivateRoute } from './components/private-route'
 import { View } from '@aws-amplify/ui-react'
 import { Signup } from './views/signup'
+import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer } from 'react-toastify'
+
 
 function App() {
 
   return (
     <View className="App">
+      <ToastContainer />
       <AppHeader />
       <Routes>
         <Route path='/' element={<Navigate to='/todo' replace />} />

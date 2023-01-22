@@ -12,9 +12,6 @@
       "AmplifyAppId": "d2ufute4qoagol"
     },
     "categories": {
-      "api": {
-        "todosaws": {}
-      },
       "auth": {
         "todosaws9c1ec615": {}
       },

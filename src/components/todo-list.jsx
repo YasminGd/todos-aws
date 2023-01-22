@@ -1,7 +1,7 @@
 import { Flex, Grid, View } from "@aws-amplify/ui-react"
 import { TodoPreview } from "./todo-preview"
 
-export const TodoList = ({ todos, deleteTodo }) => {
+export const TodoList = ({ todos }) => {
   return (
     <Flex
       maxWidth="1100px"
@@ -11,7 +11,7 @@ export const TodoList = ({ todos, deleteTodo }) => {
       padding="0 12px"
     >
       {todos.map((todo) => (
-        <TodoPreview key={todo.id} todo={todo} deleteTodo={deleteTodo} />
+        <TodoPreview key={todo.id} todo={todo} />
       ))}
     </Flex>
   )
