@@ -1,6 +1,6 @@
-import { Flex, Heading, Text, Button } from "@aws-amplify/ui-react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { Flex, Heading, Text, Button } from "@aws-amplify/ui-react"
 import { toast } from "react-toastify"
 import { removeTodosFromState } from "../store/actions/todo.action"
 import { logout } from "../store/actions/user.action"
