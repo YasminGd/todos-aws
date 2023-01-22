@@ -56,7 +56,7 @@ export const TodoPreview = ({ todo }) => {
         minWidth='135px'
       >
         {todo.weather && (
-          <Flex justifyContent='center' alignItems='center' wrap='wrap'>
+          <Flex justifyContent='center' alignItems='center' wrap='wrap' gap='4px'>
             <Text>{todo.weather.cityName}</Text>
             <Text>{todo.weather.temprature}°C</Text>
             <Flex height='40px' width='40px' justifyContent='center' alignItems='center'>
