@@ -2,7 +2,7 @@
 
 Todoz is a basic todo app built with aws services and graphQL. 
 
-Link to [project](https://master.d2ufute4qoagol.amplifyapp.com/)
+Link to [project](https://master.d2ufute4qoagol.amplifyapp.com/).
 
 ## Getting started
 
