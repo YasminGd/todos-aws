@@ -4,14 +4,13 @@ import {
   PasswordField,
   Text,
   TextField,
-  View,
 } from "@aws-amplify/ui-react"
 import { useEffect } from "react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
-import { Loader } from "../components/loader"
 import { login } from "../store/actions/user.action"
+import { Loader } from "../components/loader"
 
 export const Login = () => {
   const user = useSelector((state) => state.userModule.user)
@@ -45,18 +44,6 @@ export const Login = () => {
       setErrorMassage("Incorrect username or password")
     }
   }
-
-  // const handleSubmitConfirm = async (ev) => {
-  //   ev.preventDefault()
-  //   await dispatch(
-  //     confirmRegister({
-  //       username: register("email").value,
-  //       code: register("code").value,
-  //     })
-  //   )
-  //   await dispatch(loadTodos(register("email").value))
-  //   navigate("/dashboard")
-  // }
 
   return (
     <Flex

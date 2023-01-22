@@ -4,7 +4,6 @@ import {
   PasswordField,
   Text,
   TextField,
-  EmailField,
 } from "@aws-amplify/ui-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"

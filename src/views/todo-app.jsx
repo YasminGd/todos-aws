@@ -3,7 +3,7 @@ import { Heading, Text } from "@aws-amplify/ui-react"
 import { TodoList } from "../components/todo-list"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { addTodo, loadTodos } from "../store/actions/todo.action"
+import { loadTodos } from "../store/actions/todo.action"
 import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 import { TodoEdit } from "./todo-edit"
@@ -14,8 +14,10 @@ import { AddTodo } from "../components/add-todo"
 export const TodoApp = () => {
   const todos = useSelector((state) => state.todoModule.todos)
   const user = useSelector((state) => state.userModule.user)
+
   const [isLoading, setIsLoading] = useState(false)
   const [isCantGetTodos, setIsCantGetTodos] = useState(false)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export const TodoApp = () => {
   return (
     <section className='todos'>
       <AddTodo user={user} />
-      <Heading level={2} textAlign='center'>
+      <Heading textAlign='center'>
         Todos
       </Heading>
       {body}
