@@ -38,7 +38,7 @@ export const AppHeader = () => {
         <Flex alignItems='center'>
           {user && (
             <>
-              <Text fontSize='18px' fontWeight='500'>
+              <Text fontSize='18px' fontWeight='500' textAlign='center'>
                 {user && `Hello ${user.username}`}
               </Text>
               <Button onClick={onLogout} width='112px' height='42px'>

@@ -1,10 +1,4 @@
-import {
-  Button,
-  CheckboxField,
-  Flex,
-  Text,
-  View,
-} from "@aws-amplify/ui-react"
+import { Button, CheckboxField, Flex, Text, View } from "@aws-amplify/ui-react"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
@@ -13,7 +7,7 @@ import { removeTodo, updateTodo } from "../store/actions/todo.action"
 import { Loader } from "./loader"
 
 export const TodoPreview = ({ todo }) => {
-  const [isRemoving, setIsRemoving] = useState(true)
+  const [isRemoving, setIsRemoving] = useState(false)
   const dispatch = useDispatch()
 
   const onRemoveTodo = async (todoId) => {
@@ -43,8 +37,8 @@ export const TodoPreview = ({ todo }) => {
       alignItems='center'
       variation='elevated'
       backgroundColor='LightBlue'
-      padding='6px 12px'
       borderRadius='5px'
+      padding={{ base: "3px 6px", small: "6px 12px" }}
     >
       <Flex alignItems='center' justifyContent='center'>
         <CheckboxField
@@ -55,15 +49,22 @@ export const TodoPreview = ({ todo }) => {
           {todo.description}
         </Text>
       </Flex>
-      <Flex alignItems='center' justifyContent='center'>
+      <Flex alignItems='center' justifyContent='end' gap={{ base: "2px" }} minWidth='135px'>
         <Link to={`${todo.id}`}>
-          <Button variation='link'>Edit todo</Button>
+          <Button
+            variation='link'
+            padding={{ base: "4px", small: "8px 16px" }}
+            fontSize={{ base: "12px", small: "16px" }}
+          >
+            Edit todo
+          </Button>
         </Link>
         <Button
           variation='link'
           onClick={() => onRemoveTodo(todo.id)}
-          width='124px'
-          height='40px'
+          padding={{ base: "4px", small: "8px 16px" }}
+          height={{ base: "26px", small: "40px" }}
+          fontSize={{ base: "12px", small: "16px" }}
         >
           {isRemoving ? <Loader /> : "Delete todo"}
         </Button>
