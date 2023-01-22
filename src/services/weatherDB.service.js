@@ -1,7 +1,8 @@
+// require("dotenv").config()
 const AWS = require('aws-sdk')
 
 AWS.config.update({ region: 'us-east-1' })
-
+AWS.config.credentials = new AWS.Credentials(process.env.REACT_APP_ACCESS_KEY_ID, process.env.REACT_APP_SECRET_ACCESS_KEY)
 
 const ddb = new AWS.DynamoDB()
 
@@ -24,7 +25,7 @@ async function putInDB(item) {
     try {
         await ddb.putItem(putParams).promise()
         return
-    }catch(err) {
+    } catch (err) {
         return
     }
 }

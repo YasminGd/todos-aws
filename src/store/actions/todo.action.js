@@ -12,7 +12,6 @@ export function loadTodos() {
                 todos: [...todos],
             })
         } catch (err) {
-            console.log('Cannot load todos', err)
             throw err
         }
     }
@@ -28,7 +27,6 @@ export function addTodo(todo) {
             })
         }
         catch (err) {
-            console.log('Cannot add todo', err)
             throw err
         }
     }

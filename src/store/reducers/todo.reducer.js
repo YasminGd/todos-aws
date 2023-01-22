@@ -15,8 +15,6 @@ export function todoReducer(state = initialState, action) {
             state = { ...state, todos: state.todos.filter(todo => todo.id !== action.todoId) }
             break
         case 'UPDATE_TODO':
-            console.log(action.todo);
-            console.log(state.todos[0]);
             state = { ...state, todos: state.todos.map(todo => todo.id === action.todo.id ? action.todo : todo) }
             break
         default:

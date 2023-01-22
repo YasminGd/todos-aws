@@ -21,6 +21,7 @@ export const TodoApp = () => {
   useEffect(() => {
     ;(async () => {
       try {
+        console.log(process.env.accessKeyId)
         setIsLoading(true)
         await dispatch(loadTodos())
         setIsLoading(false)
