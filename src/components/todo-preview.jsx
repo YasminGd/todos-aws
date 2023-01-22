@@ -1,7 +1,7 @@
-import { Button, CheckboxField, Flex, Text, View } from "@aws-amplify/ui-react"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { Button, CheckboxField, Flex, Text, View } from "@aws-amplify/ui-react"
 import { toast } from "react-toastify"
 import { removeTodo, updateTodo } from "../store/actions/todo.action"
 import { Loader } from "./loader"

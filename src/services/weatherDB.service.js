@@ -1,14 +1,11 @@
 const AWS = require('aws-sdk')
 
 AWS.config.update({ region: 'us-east-1' })
-AWS.config.update({
-    accessKeyId: 'AKIA4ZCSE3LZNKEERRPH',
-    secretAccessKey: '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'
-})
+
 
 const ddb = new AWS.DynamoDB()
 
-export const DBService = {
+export const WeatherDBService = {
     putInDB,
     getFromDB
 }

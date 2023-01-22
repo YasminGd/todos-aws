@@ -6,7 +6,7 @@ import {
     updateTodo as updateTodoMutation
 } from "../graphql/mutations"
 import { geocodingService } from "./geocoding.service"
-import { DBService } from "./db.service"
+import { WeatherDBService } from "./weatherDB.service"
 import { utilService } from "./util.service"
 
 export const todoService = {
@@ -25,7 +25,7 @@ async function query(filter = {}) {
         const todosFromAPI = apiData.data.listTodos.items
         const todosWithWeather = await Promise.all(todosFromAPI.map(async (todo) => {
             if (todo.cityName) {
-                let weather = await DBService.getFromDB(todo.cityName)
+                let weather = await WeatherDBService.getFromDB(todo.cityName)
                 if (weather) {
                     if (utilService.isMoreThenADayAgo(weather.lastUpdated)) weather = await geocodingService.getCityWeather(weather.cityName)
                     todo.weather = weather

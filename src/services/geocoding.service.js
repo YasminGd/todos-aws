@@ -1,4 +1,4 @@
-import { DBService } from "./db.service"
+import { WeatherDBService } from "./weatherDB.service"
 
 export const geocodingService = {
     getCityWeather
@@ -16,7 +16,7 @@ async function getCityWeather(string) {
                 cityName: data.location.name.toLowerCase(),
                 lastUpdated: Date.now()
             }
-            DBService.putInDB(weather)
+            WeatherDBService.putInDB(weather)
             return weather
         } else return
     } catch (err) {

@@ -1,4 +1,4 @@
-import { Flex, Grid, View } from "@aws-amplify/ui-react"
+import { Flex } from "@aws-amplify/ui-react"
 import { TodoPreview } from "./todo-preview"
 
 export const TodoList = ({ todos }) => {

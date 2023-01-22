@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 import { logout } from "../store/actions/user.action"
-export const PrivateRoute = ({ element, todoMa }) => {
+export const PrivateRoute = ({ element }) => {
   const user = useSelector((state) => state.userModule.user)
   const dispatch = useDispatch()
 
