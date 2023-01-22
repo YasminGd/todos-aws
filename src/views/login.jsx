@@ -9,8 +9,9 @@ import {
 import { useEffect } from "react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { NavLink, useNavigate, useParams } from "react-router-dom"
-import { login, signup } from "../store/actions/user.action"
+import { NavLink, useNavigate } from "react-router-dom"
+import { Loader } from "../components/loader"
+import { login } from "../store/actions/user.action"
 
 export const Login = () => {
   const user = useSelector((state) => state.userModule.user)
@@ -19,6 +20,7 @@ export const Login = () => {
     password: "",
   })
   const [errorMassage, setErrorMassage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -34,12 +36,13 @@ export const Login = () => {
   const onAttemptLogin = async (ev) => {
     ev.preventDefault()
     try {
-      setErrorMassage('')
+      setErrorMassage("")
+      setIsLoading(true)
       await dispatch(login(credentials))
       navigate("/todo")
     } catch (err) {
-      setErrorMassage('Incorrect username or password')
-      console.log(err)
+      setIsLoading(false)
+      setErrorMassage("Incorrect username or password")
     }
   }
 
@@ -77,8 +80,8 @@ export const Login = () => {
             onChange={handleChange}
             required
           />
-          <Button variation='primary' type='submit'>
-            Log in
+          <Button variation='primary' type='submit' height='42px' width='258px'>
+            {isLoading ? <Loader /> : "Log in"}
           </Button>
         </form>
         {errorMassage ? <Text>{errorMassage}</Text> : <Text>&nbsp;</Text>}

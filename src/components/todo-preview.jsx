@@ -2,7 +2,6 @@ import {
   Button,
   CheckboxField,
   Flex,
-  Loader,
   Text,
   View,
 } from "@aws-amplify/ui-react"
@@ -11,6 +10,7 @@ import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { removeTodo, updateTodo } from "../store/actions/todo.action"
+import { Loader } from "./loader"
 
 export const TodoPreview = ({ todo }) => {
   const [isRemoving, setIsRemoving] = useState(false)

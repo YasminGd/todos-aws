@@ -12,7 +12,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-import { loadTodos, updateTodo } from "../store/actions/todo.action"
+import { updateTodo } from "../store/actions/todo.action"
 
 export const TodoEdit = () => {
   const { todoId } = useParams()
@@ -23,9 +23,10 @@ export const TodoEdit = () => {
   const [todo, setTodo] = useState(
     structuredClone(todos.find((todo) => todo.id === todoId))
   )
+  const user = useSelector((state) => state.userModule.user)
 
   useEffect(() => {
-    if (!todo) navigate("/todo")
+    if (!todo || (user.id !== todo.byUserId)) navigate("/todo")
   }, [])
 
   const onGoBack = () => {

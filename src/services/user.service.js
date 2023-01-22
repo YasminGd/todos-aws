@@ -13,10 +13,11 @@ const STORAGE_KEY_LOGGEDIN = 'loggedInUser'
 async function login({ username, password }) {
     try {
         const user = await Auth.signIn(username, password)
-        console.log(user);
+        console.log(user)
         const miniUser = {
             username: user.username,
-            id: user.attributes.sub
+            id: user.attributes.sub,
+            isConfirmed: true
         }
         sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(miniUser))
         return miniUser
@@ -36,7 +37,8 @@ async function signup({ username, password, email }) {
         })
         const miniUser = {
             username: user.user.username,
-            id: user.userSub
+            id: user.userSub,
+            isConfirmed: false
         }
         sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(miniUser))
         return miniUser

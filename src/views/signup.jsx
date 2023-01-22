@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
+import { Loader } from "../components/loader"
 import { confirmEmail, signup } from "../store/actions/user.action"
 
 export const Signup = () => {
@@ -21,6 +22,7 @@ export const Signup = () => {
   })
   const [isConfirming, setIsConfirming] = useState(false)
   const [errorMassage, setErrorMassage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -35,18 +37,23 @@ export const Signup = () => {
 
   const onAttemptSignup = async (ev) => {
     ev.preventDefault()
+    setIsLoading(true)
     if (isConfirming) {
       try {
         await dispatch(confirmEmail(credentials.username, credentials.code))
         navigate("/todo")
       } catch (err) {
+        setIsLoading(false)
         setErrorMassage("confirmation code is incorrect")
       }
     } else {
       try {
         await dispatch(signup(credentials))
         setIsConfirming(true)
+        setIsLoading(false)
+        setErrorMassage('')
       } catch (err) {
+        setIsLoading(false)
         setErrorMassage("can't sign up")
       }
     }
@@ -63,7 +70,7 @@ export const Signup = () => {
         <form onSubmit={onAttemptSignup}>
           {isConfirming ? (
             <>
-              <Text textAlign='center'>
+              <Text textAlign='center' fontSize='20px'>
                 Please enter the confirmation code you received in the mail
               </Text>
               <TextField
@@ -73,6 +80,13 @@ export const Signup = () => {
                 label='code'
                 required
               />
+              <Button
+                variation='primary'
+                type='submit'
+                height='42px'
+              >
+                {isLoading ? <Loader /> : "Enter code"}
+              </Button>
             </>
           ) : (
             <>
@@ -98,11 +112,15 @@ export const Signup = () => {
                 label='Password'
                 required
               />
+              <Button
+                variation='primary'
+                type='submit'
+                height='42px'
+              >
+                {isLoading ? <Loader /> : "Sign up"}
+              </Button>
             </>
           )}
-          <Button variation='primary' type='submit'>
-            Sign up
-          </Button>
         </form>
         {errorMassage ? <Text>{errorMassage}</Text> : <Text>&nbsp;</Text>}
         <NavLink className='already-have-account' to={"/user/login"}>

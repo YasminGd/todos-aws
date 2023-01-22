@@ -1,34 +1,29 @@
-import { Flex, Heading, View, Text, Button } from "@aws-amplify/ui-react"
+import { Flex, Heading, Text, Button } from "@aws-amplify/ui-react"
 import { useState } from "react"
-import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation } from "react-router-dom"
+import { toast } from "react-toastify"
 import { removeTodosFromState } from "../store/actions/todo.action"
 import { logout } from "../store/actions/user.action"
+import { Loader } from "./loader"
 
 export const AppHeader = () => {
   const user = useSelector((state) => state.userModule.user)
-  const [display,setDisplay] = useState('')
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const dispatch = useDispatch()
-  const location = useLocation()
 
-  useEffect(() => {
-    if(location.pathname.includes("/login") || location.pathname.includes("/signup")) setDisplay('none')
-    else setDisplay('')
-  },[location.pathname])
- 
-
-  const onLogout = () => {
+  const onLogout = async () => {
     try {
-      dispatch(logout())
-      dispatch(removeTodosFromState())
+      setIsLoggingOut(true)
+      await dispatch(logout())
+      await dispatch(removeTodosFromState())
     } catch (err) {
-      console.error(err)
+      setIsLoggingOut(false)
+      toast.error("Couldn't correctly log out")
     }
   }
 
   return (
-    <Heading className='app-header' height='64px' display={display}>
+    <Heading className='app-header' height='64px'>
       <Flex
         className='main-content'
         maxWidth='1100px'
@@ -37,7 +32,7 @@ export const AppHeader = () => {
         alignItems='center'
         height='100%'
       >
-        <Text fontSize='18px' fontWeight='500'>
+        <Text fontSize='24px' fontWeight='500'>
           Todoz
         </Text>
         <Flex alignItems='center'>
@@ -46,7 +41,9 @@ export const AppHeader = () => {
               <Text fontSize='18px' fontWeight='500'>
                 {user && `Hello ${user.username}`}
               </Text>
-              <Button onClick={onLogout}>Log out</Button>
+              <Button onClick={onLogout} width='112px' height='42px'>
+                {isLoggingOut ? <Loader /> : "Log out"}
+              </Button>
             </>
           )}
         </Flex>
