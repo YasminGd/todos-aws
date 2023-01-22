@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
+import { toast } from "react-toastify"
 import { updateTodo } from "../store/actions/todo.action"
 
 export const TodoEdit = () => {
@@ -35,6 +36,10 @@ export const TodoEdit = () => {
   }
 
   const onUpdateTodo = () => {
+    if(!todo.description) {
+      toast.info('Please provide a description')
+      return
+    }
     try {
       dispatch(updateTodo(todo))
       navigate("/todo")

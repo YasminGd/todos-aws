@@ -12,6 +12,10 @@ export const AddTodo = ({ user }) => {
   const onAddTodo = async (event) => {
     event.preventDefault()
     const form = new FormData(event.target)
+    if(!form.get("description")) {
+      toast.info('Please provide a description')
+      return
+    }
     const todo = {
       description: form.get("description").trim(),
       byUserId: user.id,
