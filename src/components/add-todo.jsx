@@ -29,7 +29,7 @@ export const AddTodo = ({ user }) => {
   }
 
   return (
-    <View className='add-todo'>
+    <View className='add-todo' padding='0 12px'>
       <View as='form' margin='3rem 0' onSubmit={onAddTodo}>
         <Flex direction='row' justifyContent='center'>
           <TextField
@@ -40,7 +40,7 @@ export const AddTodo = ({ user }) => {
             variation='quiet'
             required
           />
-          <Button type='submit' variation='primary' width='124px' height='42px'>
+          <Button type='submit' variation='primary' width='124px' height='42px' >
             {isAdding ? <Loader /> : "Create todo"}
           </Button>
         </Flex>
