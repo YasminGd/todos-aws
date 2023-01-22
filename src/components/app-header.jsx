@@ -23,7 +23,7 @@ export const AppHeader = () => {
   }
 
   return (
-    <Heading className='app-header' height='64px'>
+    <Heading className='app-header' height='64px'padding='0 12px'>
       <Flex
         className='main-content'
         maxWidth='1100px'

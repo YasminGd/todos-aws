@@ -65,7 +65,7 @@ export const Login = () => {
       alignItems='center'
       flex='1'
     >
-      <Flex direction='column'>
+      <Flex direction='column' width='258px'>
         <form onSubmit={onAttemptLogin}>
           <Text textAlign='center'>Log in</Text>
           <TextField

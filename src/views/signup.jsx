@@ -66,7 +66,7 @@ export const Signup = () => {
       alignItems='center'
       flex='1'
     >
-      <Flex direction='column'>
+      <Flex direction='column' width='258px'>
         <form onSubmit={onAttemptSignup}>
           {isConfirming ? (
             <>
