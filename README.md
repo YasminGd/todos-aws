@@ -26,6 +26,6 @@ The project does not include an .env file so the weather storage will not work f
 ## Technologies used
 - ***React*** 
 - ***NodeJS*** 
-- ***AWS services*** - AWS AppSync, AWS Cognito, AWS Amplify, AWS DynamoDB.
+- ***AWS services*** - AWS AppSync, AWS Cognito, AWS Amplify and AWS DynamoDB.
 - ***graphQL***
 - ***Amplify UI***
